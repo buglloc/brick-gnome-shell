@@ -69,6 +69,7 @@ const Brick = new Lang.Class({
           '/org/brick/Brick/AppWindow'
         );
 
+        this._appPropsChanged(this._app);
         this._appPropsChangedId = this._app.connect(
           'notify',
           Lang.bind(this, this._appPropsChanged)
