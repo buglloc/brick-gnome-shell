@@ -69,12 +69,11 @@ const Brick = new Lang.Class({
           '/org/brick/Brick/AppWindow'
         );
 
-        this._appPropsChanged(this._app);
         this._appPropsChangedId = this._app.connect(
           'notify',
           Lang.bind(this, this._appPropsChanged)
         );
-        
+
         this._stateChangedId = this._app.connectSignal(
           'IndicatorStateChanged',
           Lang.bind(this, this._indicatorStateChanged)
@@ -85,6 +84,7 @@ const Brick = new Lang.Class({
             style_class: 'system-status-icon'
         });
 
+        this._appPropsChanged(this._app);
         this.actor.add_actor(this._icon);
         this.actor.add_style_class_name('panel-status-button');
         this.actor.connect('button-press-event', Lang.bind(this, this.toggleVisibility));
