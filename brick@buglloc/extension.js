@@ -44,8 +44,8 @@ const DBusAppWindowIface = '<node>\
 const DBusAppWindowProxy = Gio.DBusProxy.makeProxyWrapper(DBusAppWindowIface);
 
 const IndicatorName = 'Brick';
-const OfflineIcon = 'offline';
-const OnlineIcon = 'online';
+const OfflineIcon = 'my-brick-offline';
+const OnlineIcon = 'my-brick-online';
 
 let BrickIndicator;
 
@@ -105,7 +105,7 @@ const Brick = new Lang.Class({
 
     _indicatorStateChanged: function(proxy, sender, [state]) {
       if (state)
-        this._icon.icon_name = state + '';
+        this._icon.icon_name = 'my-brick-'+state;
     },
 
     destroy: function() {
