@@ -6,42 +6,10 @@ const Gio = imports.gi.Gio;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Atk = imports.gi.Atk;
+const Extension = imports.misc.extensionUtils.getCurrentExtension();
+const DBus = Extension.imports.dbus;
 
 const owner = 'org.brick.Brick'
-
-// see "introspection_xml" on https://github.com/buglloc/brick/blob/master/brick/external_interface/dbus_protocol.cpp
-const DBusAppIface = '<node>\
-  <interface name="org.brick.Brick.AppInterface">\
-    <method name="UserAway" />\
-    <method name="UserPresent" />\
-    <method name="ShowAddAccountDialog">\
-       <arg type="b" name="switch_on_save" direction="in"/>\
-    </method>\
-    <method name="ShowAccountsDialog" />\
-    <method name="Quit" />\
-    <signal name="IndicatorTooltipChanged">\
-      <arg type="s" name="text"/>\
-    </signal>\
-    <signal name="IndicatorStateChanged">\
-      <arg type="s" name="state"/>\
-    </signal>\
-    <signal name="IndicatorBadgeChanged">\
-      <arg type="i" name="badge"/>\
-      <arg type="b" name="important"/>\
-    </signal>\
-  </interface>\
-</node>';
-const DBusAppProxy = Gio.DBusProxy.makeProxyWrapper(DBusAppIface);
-
-// see "introspection_xml" on https://github.com/buglloc/brick/blob/master/brick/external_interface/dbus_protocol.cpp
-const DBusAppWindowIface = '<node>\
-  <interface name="org.brick.Brick.AppWindowInterface">\
-    <method name="Hide" />\
-    <method name="Present" />\
-    <method name="ToggleVisibility" />\
-  </interface>\
-</node>';
-const DBusAppWindowProxy = Gio.DBusProxy.makeProxyWrapper(DBusAppWindowIface);
 
 const IndicatorName = 'Brick';
 const OfflineIcon = 'my-brick-offline';
@@ -57,17 +25,9 @@ const Brick = new Lang.Class({
         this.parent(null, IndicatorName);
         this.actor.accessible_role = Atk.Role.TOGGLE_BUTTON;
 
-        this._app = new DBusAppProxy(
-          Gio.DBus.session,
-          owner,
-          '/org/brick/Brick/App'
-        );
+        this._app = DBus.App(owner);
         
-        this._appWindow = new DBusAppWindowProxy(
-          Gio.DBus.session,
-          'org.brick.Brick',
-          '/org/brick/Brick/AppWindow'
-        );
+        this._appWindow = new DBus.AppWindow(owner);
 
         this._appPropsChangedId = this._app.connect(
           'notify',
@@ -114,7 +74,7 @@ const Brick = new Lang.Class({
             this._app.disconnectSignal(this._stateChangedId);
             this._stateChangedId = 0;
         }
-        if (this._appPropsChangedId) {
+        if (this._appPropsChangedId) {``
             this._app.disconnect(this._appPropsChangedId);
             this._appPropsChangedId = 0;
         }
@@ -129,7 +89,7 @@ function init(extensionMeta) {
 
 function enable() {
     BrickIndicator = new Brick();
-    Main.panel.addToStatusArea(IndicatorName, BrickIndicator);
+    Main.panel.addToStatusArea(IndicatorName, BrickIndi`cator);
 }
 
 function disable() {
