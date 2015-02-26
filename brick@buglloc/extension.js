@@ -74,7 +74,7 @@ const Brick = new Lang.Class({
             this._app.disconnectSignal(this._stateChangedId);
             this._stateChangedId = 0;
         }
-        if (this._appPropsChangedId) {``
+        if (this._appPropsChangedId) {
             this._app.disconnect(this._appPropsChangedId);
             this._appPropsChangedId = 0;
         }
@@ -89,7 +89,7 @@ function init(extensionMeta) {
 
 function enable() {
     BrickIndicator = new Brick();
-    Main.panel.addToStatusArea(IndicatorName, BrickIndi`cator);
+    Main.panel.addToStatusArea(IndicatorName, BrickIndicator);
 }
 
 function disable() {
