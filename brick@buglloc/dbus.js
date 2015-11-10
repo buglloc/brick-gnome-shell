@@ -1,7 +1,7 @@
 
 const Gio = imports.gi.Gio;
 
-// see "introspection_xml" on https://github.com/buglloc/brick/blob/master/brick/external_interface/dbus_protocol.cpp
+// see "introspection_xml" on https://github.com/buglloc/brick/blob/master/brick/external_interface/dbus_protocol.cc
 const DBusAppIface = '<node>\
   <interface name="org.brick.Brick.AppInterface">\
     <method name="UserAway" />\
@@ -26,15 +26,15 @@ const DBusAppIface = '<node>\
 const DBusAppProxy = Gio.DBusProxy.makeProxyWrapper(DBusAppIface);
 function App(owner, init_callback, cancellable) {
   return new DBusAppProxy(
-          Gio.DBus.session, 
-          owner, 
-          '/org/brick/Brick/App', 
-          init_callback, 
+          Gio.DBus.session,
+          owner,
+          '/org/brick/Brick/App',
+          init_callback,
           cancellable
         );
 }
 
-// see "introspection_xml" on https://github.com/buglloc/brick/blob/master/brick/external_interface/dbus_protocol.cpp
+// see "introspection_xml" on https://github.com/buglloc/brick/blob/master/brick/external_interface/dbus_protocol.cc
 const DBusAppWindowIface = '<node>\
   <interface name="org.brick.Brick.AppWindowInterface">\
     <method name="Hide" />\

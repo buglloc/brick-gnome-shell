@@ -13,7 +13,7 @@ Any kind of contribution would be very very welcome. Check out the issue tracker
 ## License
 
 ```
-Copyright © 2015 Andrew Krasichkov <buglloc@yandex.ru>
+Copyright © 2015 Evgeny Vasilkov <skomaroh@gmail.com>
 This work is free. You can redistribute it and/or modify it under the
 terms of the Do What The Fuck You Want To Public License, Version 2,
 as published by Sam Hocevar. See the LICENSE.txt file for more details.

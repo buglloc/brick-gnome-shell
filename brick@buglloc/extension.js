@@ -8,6 +8,7 @@ const PanelMenu = imports.ui.panelMenu;
 const Atk = imports.gi.Atk;
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const DBus = Extension.imports.dbus;
+const GSession = imports.misc.gnomeSession;
 
 const owner = 'org.brick.Brick'
 
@@ -26,7 +27,7 @@ const Brick = new Lang.Class({
         this.actor.accessible_role = Atk.Role.TOGGLE_BUTTON;
 
         this._app = DBus.App(owner);
-        
+
         this._appWindow = new DBus.AppWindow(owner);
 
         this._appPropsChangedId = this._app.connect(
@@ -38,7 +39,12 @@ const Brick = new Lang.Class({
           'IndicatorStateChanged',
           Lang.bind(this, this._indicatorStateChanged)
         );
-        
+        this._gSessionPresence = new GSession.Presence();
+        /*this._signal = this._gSessionPresence.connect(
+            'StatusChanged',
+            Lang.bind(this, this._onStatusChanged)
+        );*/
+
         this._icon = new St.Icon({
             icon_name: this._app.g_name_owner? OnlineIcon : OfflineIcon,
             style_class: 'system-status-icon'
@@ -67,9 +73,26 @@ const Brick = new Lang.Class({
       if (state)
         this._icon.icon_name = 'my-brick-'+state;
     },
+    /*_onStatusChanged: function(status) {
+        switch (status) {
+            case GSession.PresenceStatus.BUSY:
+                this._app.UserAway();
+                break;
+            case GSession.PresenceStatus.IDLE:
+                this._app.UserAway();
+                break;
+            case GSession.PresenceStatus.AVALIABLE:
+                this._app.UserPresent();
+                break;
+            case GSession.PresenceStatus.INVISIBLE:
+                this._app.UserAway();
+                break
+        }
+    }*/
 
     destroy: function() {
         // disconnect from signals
+        this._gSessionPresence.disconnect(this._signal);
         if (this._stateChangedId) {
             this._app.disconnectSignal(this._stateChangedId);
             this._stateChangedId = 0;
